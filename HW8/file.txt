@@ -1,0 +1,27 @@
+Доброго дня!
+Нажаль маю мак на мці і дуже проблемно підняти віртуалку. Точніше я можу підняти її але вона буде арм. 
+Я намагався підняти віртуалку з вагранту використовуючи VB безуспішно (мова йде про убунту)
+Потім з Parallels але проблема в тому що ти не можеш на тріалці піднімати з вагрант файлів тільки якщо куплений. 
+VMWare Workstation не маю навіть тріалки. просто нема в завантаження в аку і все. 
+пробував UTM і він також проблемний. 
+Я намагався підняти прям на уроці з викладачем гіт і без успішно. 
+Звісно можна купити віртуалку десь в клауді але  поки не готовий до цього.
+Простіше кажучи вчасно я не здав домашку тому що хворів, а не зробив домашку у звязку з вище наданими аргументами. 
+АЛЕ важливо те що я розумію як це робиться і розумію як написати структуру файлу і на мій погляд файл буде виглядаати саме так
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu2204"
+
+  config.vm.network "public_network"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    apt update -y
+    apt install nginx -y
+
+    sed -i 's/listen 80 default_server;/listen 82 default_server;/' /etc/nginx/sites-available/default
+    sed -i 's/listen \\[::\\]:80 default_server;/listen \\[::\\]:82 default_server;/' /etc/nginx/sites-available/default
+
+    systemctl restart nginx
+  SHELL
+end
+
+
